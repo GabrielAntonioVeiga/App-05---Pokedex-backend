@@ -87,18 +87,32 @@ public class PokemonService {
         pokemonRepository.deleteById(id);
     }
 
-    public Set<String> findByHabilidade(String habilidade) {
+    public Set<PokemonDto> findByHabilidade(String habilidade) {
       return pokemonRepository
           .buscarPorHabilidade(habilidade)
-          .stream()
-          .map(Pokemon::getNome)
-          .collect(Collectors.toSet());
+          .stream().map(pokemon -> {
+            PokemonDto dto = new PokemonDto();
+            dto.setId(pokemon.getId());
+            dto.setNome(pokemon.getNome());
+            dto.setTipo(pokemon.getTipo());
+            dto.setHabilidades(pokemon.getListaHabilidades().stream().map(Habilidade::getNome).toList());
+            dto.setEmailusuario(pokemon.getUsuarioCadastrador().getEmail());
+            return dto;
+          }).collect(Collectors.toSet());
     }
 
 
-  public List<String> findAllByTipo(String tipo) {
+  public List<PokemonDto> findAllByTipo(String tipo) {
       List<Pokemon> pokemons = pokemonRepository.findAllByTipoContainingIgnoreCase(tipo);
-      return pokemons.stream().map(Pokemon::getNome).toList();
+      return pokemons.stream().map(pokemon -> {
+        PokemonDto dto = new PokemonDto();
+        dto.setId(pokemon.getId());
+        dto.setNome(pokemon.getNome());
+        dto.setTipo(pokemon.getTipo());
+        dto.setHabilidades(pokemon.getListaHabilidades().stream().map(Habilidade::getNome).toList());
+        dto.setEmailusuario(pokemon.getUsuarioCadastrador().getEmail());
+        return dto;
+      }).collect(java.util.stream.Collectors.toList());
     }
     
     public List<Habilidade> criarHabilidades(List<String> habilidadesNomes) {

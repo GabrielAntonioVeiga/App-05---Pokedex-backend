@@ -41,12 +41,12 @@ public class PokemonController {
     }
 
     @GetMapping("/by-habilidade")
-    public ResponseEntity<Set<String>> findAllByHabilidade(@RequestParam String habilidade) {
+    public ResponseEntity<Set<PokemonDto>> findAllByHabilidade(@RequestParam String habilidade) {
         return ResponseEntity.ok(pokemonService.findByHabilidade(habilidade));
     }
 
     @GetMapping("/by-tipo")
-    public ResponseEntity<List<String>> findAllByTipo(@RequestParam String tipo) {
+    public ResponseEntity<List<PokemonDto>> findAllByTipo(@RequestParam String tipo) {
         return ResponseEntity.ok(pokemonService.findAllByTipo(tipo));
     }
     @GetMapping("/count")
