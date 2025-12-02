@@ -41,12 +41,12 @@ public class PokemonService {
     }
 
     public List<String> findAllByHabilidade(String habilidade) {
-      List<Pokemon> pokemons = pokemonRepository.findAllByHabilidades(habilidade);
+      List<Pokemon> pokemons = pokemonRepository.findAllByHabilidadesContainingIgnoreCase(habilidade);
       return pokemons.stream().map(Pokemon::getNome).toList();
     }
 
     public List<String> findAllByTipo(String tipo) {
-      List<Pokemon> pokemons = pokemonRepository.findAllByTipo(tipo);
+      List<Pokemon> pokemons = pokemonRepository.findAllByTipoContainingIgnoreCase(tipo);
       return pokemons.stream().map(Pokemon::getNome).toList();
     }
 }

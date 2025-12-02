@@ -11,6 +11,7 @@ import java.util.List;
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 
     boolean existsByNome(String nome);
-    List<Pokemon> findAllByHabilidades(String habilidades);
-    List<Pokemon> findAllByTipo(String tipo);
+    List<Pokemon> findAllByHabilidadesContainingIgnoreCase(String habilidades);
+    List<Pokemon> findAllByTipoContainingIgnoreCase(String tipo);
+
 }
