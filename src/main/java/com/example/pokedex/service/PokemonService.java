@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PokemonService {
@@ -85,12 +87,16 @@ public class PokemonService {
         pokemonRepository.deleteById(id);
     }
 
-    public List<String> findAllByHabilidade(String habilidade) {
-      List<Pokemon> pokemons = pokemonRepository.findAllByHabilidadesContainingIgnoreCase(habilidade);
-      return pokemons.stream().map(Pokemon::getNome).toList();
+    public Set<String> findByHabilidade(String habilidade) {
+      return pokemonRepository
+          .buscarPorHabilidade(habilidade)
+          .stream()
+          .map(Pokemon::getNome)
+          .collect(Collectors.toSet());
     }
 
-    public List<String> findAllByTipo(String tipo) {
+
+  public List<String> findAllByTipo(String tipo) {
       List<Pokemon> pokemons = pokemonRepository.findAllByTipoContainingIgnoreCase(tipo);
       return pokemons.stream().map(Pokemon::getNome).toList();
     }

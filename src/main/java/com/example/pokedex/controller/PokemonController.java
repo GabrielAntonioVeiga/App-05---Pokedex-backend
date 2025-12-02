@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/pokemon")
@@ -40,8 +41,8 @@ public class PokemonController {
     }
 
     @GetMapping("/by-habilidade")
-    public ResponseEntity<List<String>> findAllByHabilidade(@RequestParam String habilidade) {
-        return ResponseEntity.ok(pokemonService.findAllByHabilidade(habilidade));
+    public ResponseEntity<Set<String>> findAllByHabilidade(@RequestParam String habilidade) {
+        return ResponseEntity.ok(pokemonService.findByHabilidade(habilidade));
     }
 
     @GetMapping("/by-tipo")
