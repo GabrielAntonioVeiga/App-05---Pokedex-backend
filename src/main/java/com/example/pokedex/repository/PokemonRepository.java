@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 
     boolean existsByNome(String nome);
+    List<Pokemon> findAllByHabilidades(String habilidades);
+    List<Pokemon> findAllByTipo(String tipo);
 }

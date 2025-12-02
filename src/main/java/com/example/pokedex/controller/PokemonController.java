@@ -7,10 +7,9 @@ import com.example.pokedex.service.AutenticacaoService;
 import com.example.pokedex.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/pokemon")
@@ -22,5 +21,15 @@ public class PokemonController {
     @PostMapping
     public ResponseEntity<PokemonDto> login(@RequestBody PokemonDto dto) {
         return ResponseEntity.ok(pokemonService.salvar(dto));
+    }
+
+    @GetMapping("/by-habilidade")
+    public ResponseEntity<List<String>> findAllByHabilidade(@RequestParam String habilidade) {
+        return ResponseEntity.ok(pokemonService.findAllByHabilidade(habilidade));
+    }
+
+    @GetMapping("/by-tipo")
+    public ResponseEntity<List<String>> findAllByTipo(@RequestParam String tipo) {
+        return ResponseEntity.ok(pokemonService.findAllByHabilidade(tipo));
     }
 }

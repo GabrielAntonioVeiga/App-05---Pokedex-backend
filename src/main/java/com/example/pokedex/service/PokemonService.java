@@ -8,6 +8,8 @@ import com.example.pokedex.repository.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PokemonService {
 
@@ -38,4 +40,13 @@ public class PokemonService {
         return dto;
     }
 
+    public List<String> findAllByHabilidade(String habilidade) {
+      List<Pokemon> pokemons = pokemonRepository.findAllByHabilidades(habilidade);
+      return pokemons.stream().map(Pokemon::getNome).toList();
+    }
+
+    public List<String> findAllByTipo(String tipo) {
+      List<Pokemon> pokemons = pokemonRepository.findAllByTipo(tipo);
+      return pokemons.stream().map(Pokemon::getNome).toList();
+    }
 }
