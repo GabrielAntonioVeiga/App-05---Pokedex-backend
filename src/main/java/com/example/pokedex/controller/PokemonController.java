@@ -30,6 +30,6 @@ public class PokemonController {
 
     @GetMapping("/by-tipo")
     public ResponseEntity<List<String>> findAllByTipo(@RequestParam String tipo) {
-        return ResponseEntity.ok(pokemonService.findAllByHabilidade(tipo));
+        return ResponseEntity.ok(pokemonService.findAllByTipo(tipo));
     }
 }
