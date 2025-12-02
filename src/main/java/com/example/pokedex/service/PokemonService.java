@@ -40,6 +40,45 @@ public class PokemonService {
         return dto;
     }
 
+    public java.util.List<PokemonDto> listarTodos() {
+        java.util.List<Pokemon> pokemons = pokemonRepository.findAll();
+        return pokemons.stream().map(pokemon -> {
+            PokemonDto dto = new PokemonDto();
+            dto.setId(pokemon.getId());
+            dto.setNome(pokemon.getNome());
+            dto.setTipo(pokemon.getTipo());
+            dto.setHabilidades(pokemon.getHabilidades());
+            dto.setEmailusuario(pokemon.getUsuarioCadastrador().getEmail());
+            return dto;
+        }).collect(java.util.stream.Collectors.toList());
+    }
+
+    public PokemonDto editar(Long id, PokemonDto dto) {
+        Pokemon pokemon = pokemonRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pokémon não encontrado"));
+
+        if (!pokemon.getNome().equals(dto.getNome()) && pokemonRepository.existsByNome(dto.getNome())) {
+            dto.setMensagemErro("Já existe um pokémon cadastrado com esse nome.");
+            return dto;
+        }
+
+        pokemon.setNome(dto.getNome());
+        pokemon.setTipo(dto.getTipo());
+        pokemon.setHabilidades(dto.getHabilidades());
+
+        Pokemon pokemonAtualizado = pokemonRepository.save(pokemon);
+        dto.setId(pokemonAtualizado.getId());
+        dto.setEmailusuario(pokemonAtualizado.getUsuarioCadastrador().getEmail());
+        return dto;
+    }
+
+    public void deletar(Long id) {
+        if (!pokemonRepository.existsById(id)) {
+            throw new RuntimeException("Pokémon não encontrado");
+        }
+        pokemonRepository.deleteById(id);
+    }
+
     public List<String> findAllByHabilidade(String habilidade) {
       List<Pokemon> pokemons = pokemonRepository.findAllByHabilidadesContainingIgnoreCase(habilidade);
       return pokemons.stream().map(Pokemon::getNome).toList();

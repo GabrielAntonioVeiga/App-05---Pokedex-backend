@@ -23,6 +23,22 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.salvar(dto));
     }
 
+    @GetMapping
+    public ResponseEntity<List<PokemonDto>> listarTodos() {
+        return ResponseEntity.ok(pokemonService.listarTodos());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PokemonDto> editar(@PathVariable Long id, @RequestBody PokemonDto dto) {
+        return ResponseEntity.ok(pokemonService.editar(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        pokemonService.deletar(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/by-habilidade")
     public ResponseEntity<List<String>> findAllByHabilidade(@RequestParam String habilidade) {
         return ResponseEntity.ok(pokemonService.findAllByHabilidade(habilidade));
