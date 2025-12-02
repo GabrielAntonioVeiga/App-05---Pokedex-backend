@@ -1,8 +1,7 @@
 package com.example.pokedex.repository;
 
 import com.example.pokedex.dto.TipoCountProjection;
-import com.example.pokedex.entity.Pokemon;
-import com.fasterxml.jackson.annotation.JacksonAnnotation;
+import com.example.pokedex.entity.Habilidade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,23 +9,18 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
-
-    boolean existsByNome(String nome);
-    List<Pokemon> findAllByHabilidadesContainingIgnoreCase(String habilidades);
-    List<Pokemon> findAllByTipoContainingIgnoreCase(String tipo);
-
+public interface HabilidadeRepository extends JpaRepository<Habilidade, Long> {
 
     @Query(
             value =
                     """
                     SELECT 
-                        p.tipo AS tipo, 
-                        COUNT(p.tipo) AS quantidade 
+                        h.nome AS tipo, 
+                        COUNT(h.nome) AS quantidade 
                     FROM 
-                        pokemons p  -- Use o nome da tabela no SQL nativo
+                        habilidades h  -- Use o nome da tabela no SQL nativo
                     GROUP BY 
-                        p.tipo 
+                        h.nome 
                     ORDER BY 
                         quantidade DESC 
                     LIMIT 3

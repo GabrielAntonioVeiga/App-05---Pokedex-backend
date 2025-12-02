@@ -18,11 +18,13 @@ public class Pokemon {
     @Column(nullable = false)
     private String tipo;
 
-    private String habilidades;
-
     @ManyToOne
     @JoinColumn(name = "usuario_cadastrador_id")
     private Usuario usuarioCadastrador;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pokemon_id")
+    private List<Habilidade> listaHabilidades;
 
     public Long getId() {
         return id;
@@ -48,19 +50,19 @@ public class Pokemon {
         this.tipo = tipo;
     }
 
-    public String getHabilidades() {
-        return habilidades;
-    }
-
-    public void setHabilidades(String habilidades) {
-        this.habilidades = habilidades;
-    }
-
     public Usuario getUsuarioCadastrador() {
         return usuarioCadastrador;
     }
 
     public void setUsuarioCadastrador(Usuario usuarioCadastrador) {
         this.usuarioCadastrador = usuarioCadastrador;
+    }
+
+    public List<Habilidade> getListaHabilidades() {
+        return listaHabilidades;
+    }
+
+    public void setListaHabilidades(List<Habilidade> listaHabilidades) {
+        this.listaHabilidades = listaHabilidades;
     }
 }

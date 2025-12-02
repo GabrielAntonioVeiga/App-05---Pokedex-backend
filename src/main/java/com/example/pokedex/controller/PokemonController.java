@@ -48,4 +48,19 @@ public class PokemonController {
     public ResponseEntity<List<String>> findAllByTipo(@RequestParam String tipo) {
         return ResponseEntity.ok(pokemonService.findAllByTipo(tipo));
     }
+    @GetMapping("/count")
+    public ResponseEntity<Integer> count() {
+        return ResponseEntity.ok(pokemonService.contarPokemons());
+    }
+
+    @GetMapping("/top/tipos")
+    public ResponseEntity<?> getTopTipos() {
+        return ResponseEntity.ok(pokemonService.getTopTipos());
+    }
+
+    @GetMapping("/top/habilidades")
+    public ResponseEntity<?> getTopHabilidades() {
+        return ResponseEntity.ok(pokemonService.getTopHabilidades());
+    }
+
 }

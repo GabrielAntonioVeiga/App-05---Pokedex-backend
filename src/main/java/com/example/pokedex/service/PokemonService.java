@@ -1,9 +1,12 @@
 package com.example.pokedex.service;
 
 import com.example.pokedex.dto.PokemonDto;
+import com.example.pokedex.dto.TipoCountProjection;
+import com.example.pokedex.entity.Habilidade;
 import com.example.pokedex.entity.Pokemon;
 import com.example.pokedex.entity.Usuario;
 import com.example.pokedex.repository.AutenticacaoRepository;
+import com.example.pokedex.repository.HabilidadeRepository;
 import com.example.pokedex.repository.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ public class PokemonService {
 
     @Autowired
     private PokemonRepository pokemonRepository;
+
+    @Autowired
+    private HabilidadeRepository habilidadeRepository;
 
     @Autowired
     private AutenticacaoRepository autenticacaoRepository;
@@ -29,7 +35,7 @@ public class PokemonService {
         Pokemon pokemon = new Pokemon();
         pokemon.setNome(dto.getNome());
         pokemon.setTipo(dto.getTipo());
-        pokemon.setHabilidades(dto.getHabilidades());
+        pokemon.setListaHabilidades(criarHabilidades(dto.getHabilidades()));
 
         Usuario usuarioValido = autenticacaoRepository.findByEmail(dto.getEmailusuario());
         pokemon.setUsuarioCadastrador(usuarioValido);
@@ -47,7 +53,7 @@ public class PokemonService {
             dto.setId(pokemon.getId());
             dto.setNome(pokemon.getNome());
             dto.setTipo(pokemon.getTipo());
-            dto.setHabilidades(pokemon.getHabilidades());
+            dto.setHabilidades(pokemon.getListaHabilidades().stream().map(Habilidade::getNome).toList());
             dto.setEmailusuario(pokemon.getUsuarioCadastrador().getEmail());
             return dto;
         }).collect(java.util.stream.Collectors.toList());
@@ -64,7 +70,7 @@ public class PokemonService {
 
         pokemon.setNome(dto.getNome());
         pokemon.setTipo(dto.getTipo());
-        pokemon.setHabilidades(dto.getHabilidades());
+        pokemon.setListaHabilidades(criarHabilidades(dto.getHabilidades()));
 
         Pokemon pokemonAtualizado = pokemonRepository.save(pokemon);
         dto.setId(pokemonAtualizado.getId());
@@ -88,4 +94,25 @@ public class PokemonService {
       List<Pokemon> pokemons = pokemonRepository.findAllByTipoContainingIgnoreCase(tipo);
       return pokemons.stream().map(Pokemon::getNome).toList();
     }
+    
+    public List<Habilidade> criarHabilidades(List<String> habilidadesNomes) {
+        return habilidadesNomes.stream().map(nome -> {
+            Habilidade habilidade = new Habilidade();
+            habilidade.setNome(nome);
+            return habilidade;
+        }).toList();
+    }
+
+    public Integer contarPokemons() {
+        return (int) pokemonRepository.count();
+    }
+
+    public List<TipoCountProjection> getTopTipos() {
+        return pokemonRepository.findTop3TiposWithCount();
+    }
+
+    public List<TipoCountProjection> getTopHabilidades() {
+        return habilidadeRepository.findTop3TiposWithCount();
+    }
+
 }

@@ -3,6 +3,8 @@ package com.example.pokedex.dto;
 import com.example.pokedex.entity.Usuario;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 public class PokemonDto {
 
     private Long id;
@@ -11,7 +13,7 @@ public class PokemonDto {
 
     private String tipo;
 
-    private String habilidades;
+    private List<String> habilidades;
 
     private String emailusuario;
 
@@ -43,11 +45,11 @@ public class PokemonDto {
         this.tipo = tipo;
     }
 
-    public String getHabilidades() {
+    public List<String> getHabilidades() {
         return habilidades;
     }
 
-    public void setHabilidades(String habilidades) {
+    public void setHabilidades(List<String> habilidades) {
         this.habilidades = habilidades;
     }
 
